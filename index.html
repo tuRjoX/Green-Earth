@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Earth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -59,7 +60,7 @@
     <section class="mt-[100px] flex justify-center items-start gap-10 mr-[30px]">
         <!-- Sidebar (Categories) -->
         <div>
-            <h1 class="text-xl font-bold">Categories</h1>
+            <h1 class="text-xl font-bold mb-2">Categories</h1>
             <ul id="category-list" class="ml-4 space-y-2"></ul>
         </div>
 
@@ -70,7 +71,14 @@
         </div>
 
         <!-- Right Sidebar -->
-        <div class="bg-white w-[250px] h-[739.6px]"></div>
+        <div class="bg-white w-[250px] h-[739.6px] rounded-lg p-2 m-2">
+            <h1 class="text-3xl font-bold mb-2">Your Cart</h1>
+            <!-- Cart items will be dynamically added here -->
+            <ul id="cart-items" class="p-2 rounded-lg"></ul>
+            <hr id="cart-divider" class="border-t border-gray-300 my-4">
+            <div id="cart-total" class="font-bold text-lg mt-2 ">
+            </div>
+        </div>
     </section>
     <script src="script.js"></script>
 </body>

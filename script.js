@@ -1,3 +1,51 @@
+// Cart state
+let cart = [];
+
+function renderCart() {
+  const cartList = document.getElementById("cart-items");
+  cartList.innerHTML = "";
+  let total = 0;
+  cart.forEach((item, idx) => {
+    total += item.price * item.qty;
+    cartList.innerHTML += `
+      <li class="flex items-center justify-between mb-3 bg-[#e6f4ea] rounded-lg shadow">
+        <div class="flex-1 p-3">
+          <h1>${item.name}</h1>
+          <p>৳${item.price} x ${item.qty}</p>
+        </div>
+        <div>
+          <button onclick="removeFromCart(${idx})">
+            <i class='fa-solid fa-xmark'></i>
+          </button>
+        </div>
+      </li>
+    `;
+  });
+  // Show total
+  const totalSpan = document.getElementById("cart-total");
+  totalSpan.innerHTML = `
+  <div class="flex justify-between">
+    <h1>Total:</h1>
+    <p>৳${total}</p>
+  </div>
+  `;
+}
+
+window.removeFromCart = function (idx) {
+  cart.splice(idx, 1);
+  renderCart();
+};
+
+function addToCart(plant) {
+  const found = cart.find((item) => item.id === plant.id);
+  if (found) {
+    found.qty += 1;
+  } else {
+    cart.push({ ...plant, qty: 1 });
+  }
+  renderCart();
+}
+
 // Fetch and render categories in the sidebar
 async function fetchCategories() {
   try {
@@ -43,36 +91,38 @@ async function fetchCategories() {
             const container = document.getElementById("card-container");
             container.innerHTML = "";
             data.plants.forEach((plant) => {
-              const card = `
-            <div class="w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow">
-              <div class="flex justify-center bg-[#ededed]">
-                <img src="${plant.image}" alt="${
+              const card = document.createElement("div");
+              card.className =
+                "w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow";
+              card.innerHTML = `
+                <div class='flex justify-center bg-[#ededed]'>
+                  <img src='${plant.image}' alt='${
                 plant.name
-              }" class="rounded-lg h-[178.8px] w-[298px]">
-              </div>
-              <div>
-                <h2 class="card-title font-bold mb-[8px] mt-[12px]">${
-                  plant.name
-                }</h2>
-                <p class="text-sm mb-[8px]">${plant.description.substring(
-                  0,
-                  100
-                )}...</p>
-              </div>
-              <div class="flex justify-between mb-[12px]">
-                <h1 class="text-[#15803d] px-4 bg-[#dcfce7] rounded-full">${
-                  plant.category
-                }</h1>
-                <h1 class="font-semibold">৳${plant.price}</h1>
-              </div>
-              <div class="mt-2">
-                <a href="#" class="btn bg-[#15803D] text-white rounded-full border-none w-[298px] mb-[16px] hover:bg-[#14532d]">
-                  Get Involved
-                </a>
-              </div>
-            </div>
-          `;
-              container.innerHTML += card;
+              }' class='rounded-lg h-[178.8px] w-[298px]'>
+                </div>
+                <div>
+                  <h2 class='card-title font-bold mb-[8px] mt-[12px]'>${
+                    plant.name
+                  }</h2>
+                  <p class='text-sm mb-[8px]'>${plant.description.substring(
+                    0,
+                    100
+                  )}...</p>
+                </div>
+                <div class='flex justify-between mb-[12px]'>
+                  <h1 class='text-[#15803d] px-4 bg-[#dcfce7] rounded-full'>${
+                    plant.category
+                  }</h1>
+                  <h1 class='font-semibold'>৳${plant.price}</h1>
+                </div>
+                <div class='mt-2'>
+                  <button class='btn bg-[#15803D] text-white rounded-full border-none w-[298px] mb-[16px] hover:bg-[#14532d] add-to-cart'>Add to Cart</button>
+                </div>
+              `;
+              card
+                .querySelector(".add-to-cart")
+                .addEventListener("click", () => addToCart(plant));
+              container.appendChild(card);
             });
           }
         } catch (error) {
@@ -96,36 +146,38 @@ async function fetchPlants() {
       container.innerHTML = "";
 
       data.plants.forEach((plant) => {
-        const card = `
-            <div class="w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow">
-              <div class="flex justify-center bg-[#ededed]">
-                <img src="${plant.image}" alt="${
+        const card = document.createElement("div");
+        card.className =
+          "w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow";
+        card.innerHTML = `
+          <div class='flex justify-center bg-[#ededed]'>
+            <img src='${plant.image}' alt='${
           plant.name
-        }" class="rounded-lg h-[178.8px] w-[298px]">
-              </div>
-              <div>
-                <h2 class="card-title font-bold mb-[8px] mt-[12px]">${
-                  plant.name
-                }</h2>
-                <p class="text-sm mb-[8px]">${plant.description.substring(
-                  0,
-                  100
-                )}...</p>
-              </div>
-              <div class="flex justify-between mb-[12px]">
-                <h1 class="text-[#15803d] px-4 bg-[#dcfce7] rounded-full">${
-                  plant.category
-                }</h1>
-                <h1 class="font-semibold">৳${plant.price}</h1>
-              </div>
-              <div class="mt-2">
-                <a href="#" class="btn bg-[#15803D] text-white rounded-full border-none w-[298px] mb-[16px] hover:bg-[#14532d]">
-                  Get Involved
-                </a>
-              </div>
-            </div>
-          `;
-        container.innerHTML += card;
+        }' class='rounded-lg h-[178.8px] w-[298px]'>
+          </div>
+          <div>
+            <h2 class='card-title font-bold mb-[8px] mt-[12px]'>${
+              plant.name
+            }</h2>
+            <p class='text-sm mb-[8px]'>${plant.description.substring(
+              0,
+              100
+            )}...</p>
+          </div>
+          <div class='flex justify-between mb-[12px]'>
+            <h1 class='text-[#15803d] px-4 bg-[#dcfce7] rounded-full'>${
+              plant.category
+            }</h1>
+            <h1 class='font-semibold'>৳${plant.price}</h1>
+          </div>
+          <div class='mt-2'>
+            <button class='btn bg-[#15803D] text-white rounded-full border-none w-[298px] mb-[16px] hover:bg-[#14532d] add-to-cart'>Add to Cart</button>
+          </div>
+        `;
+        card
+          .querySelector(".add-to-cart")
+          .addEventListener("click", () => addToCart(plant));
+        container.appendChild(card);
       });
     }
   } catch (error) {
