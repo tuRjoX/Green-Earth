@@ -85,7 +85,7 @@ async function fetchCategories() {
           option.textContent = cat.category_name;
           select.appendChild(option);
         });
-        select.value = "all"; 
+        select.value = "all";
         select.onchange = function () {
           const id = select.value;
           if (id === "all") {
@@ -153,7 +153,7 @@ document.getElementById("close-modal-btn").onclick = function () {
 function renderCard(plant) {
   const card = document.createElement("div");
   card.className =
-    "w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow cursor-pointer";
+    "w-[330px] h-[400px] rounded-lg p-[16px] bg-white shadow cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-xl";
   card.innerHTML = `
     <div class='flex justify-center bg-[#ededed]'>
       <img src='${plant.image}' alt='${
@@ -161,7 +161,9 @@ function renderCard(plant) {
   }' class='rounded-lg h-[178.8px] w-[298px]'>
     </div>
     <div>
-      <h2 class='card-title font-bold mb-[8px] mt-[12px]'>${plant.name}</h2>
+      <h2 class='card-title font-bold mb-[8px] mt-[12px] cursor-pointer'>${
+        plant.name
+      }</h2>
       <p class='text-sm mb-[8px]'>${plant.description.substring(0, 100)}...</p>
     </div>
     <div class='flex justify-between mb-[12px]'>
@@ -174,10 +176,10 @@ function renderCard(plant) {
       <button class='btn bg-[#15803D] text-white rounded-full border-none w-[298px] mb-[16px] hover:bg-[#14532d] add-to-cart'>Add to Cart</button>
     </div>
   `;
-  card.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("add-to-cart")) {
-      openModal(plant.id);
-    }
+  // Only tree name click opens modal
+  card.querySelector(".card-title").addEventListener("click", (e) => {
+    e.stopPropagation();
+    openModal(plant.id);
   });
   card.querySelector(".add-to-cart").addEventListener("click", (e) => {
     e.stopPropagation();
