@@ -60,6 +60,9 @@
     </section>
     <!-- Choose Your Trees -->
     <h1 class="text-2xl sm:text-3xl font-bold mb-4 mt-[40px] sm:mt-[100px] text-center">Choose Your Trees</h1>
+    <div id="loading-spinner" class="flex justify-center items-center w-full py-6 hidden">
+        <span class="loading loading-infinity loading-xl text-green-700"></span>
+    </div>
     <section class="flex flex-col sm:flex-row justify-center items-start gap-6 sm:gap-10 mr-0 sm:mr-[30px] px-2">
         <!-- Sidebar (Categories) for large screens -->
         <div class="w-full sm:w-auto mb-6 sm:mb-0 hidden sm:block">
@@ -71,23 +74,22 @@
             <select id="category-select" class="select select-ghost w-full">
                 <option disabled selected>Pick a category</option>
                 <option value="all">All Trees</option>
-                <!-- Options will be populated by JS -->
             </select>
         </div>
 
         <!-- Card Container (Centered) -->
         <div id="card-container"
             class="grid grid-cols-1 sm:grid-cols-3 gap-7 w-full sm:w-auto mx-auto sm:mx-0 justify-items-center">
-            <!-- Card 1 -->
-            <!-- Repeat other cards... -->
+
         </div>
 
         <!-- Right Sidebar -->
         <div
             class="bg-white w-full sm:w-[250px] h-auto sm:h-[739.6px] rounded-lg p-4 sm:p-2 m-0 sm:m-2 flex flex-col shadow-md">
             <h1 class="text-xl sm:text-3xl font-bold mb-2">Your Cart</h1>
-            <!-- Cart items will be dynamically added here -->
-            <ul id="cart-items" class="p-2 rounded-lg"></ul>
+            <ul id="cart-items" class="p-2 rounded-lg">
+
+            </ul>
             <hr id="cart-divider" class="border-t border-gray-300 my-4">
             <div id="cart-total" class="font-bold text-base sm:text-lg mt-2"></div>
         </div>
@@ -186,7 +188,6 @@
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 

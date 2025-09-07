@@ -76,15 +76,17 @@ async function fetchCategories() {
       // Small screen select
       const select = document.getElementById("category-select");
       if (select) {
-        // Remove old options except first
-        select.querySelectorAll('option:not([value="all"]):not([disabled])').forEach(opt => opt.remove());
-        data.categories.forEach(cat => {
-          const option = document.createElement('option');
+        select
+          .querySelectorAll('option:not([value="all"]):not([disabled])')
+          .forEach((opt) => opt.remove());
+        data.categories.forEach((cat) => {
+          const option = document.createElement("option");
           option.value = cat.id;
           option.textContent = cat.category_name;
           select.appendChild(option);
         });
-        select.onchange = function() {
+        select.value = "all"; 
+        select.onchange = function () {
           const id = select.value;
           if (id === "all") {
             fetchPlants();
@@ -95,10 +97,12 @@ async function fetchCategories() {
       }
       async function fetchPlantsByCategory(categoryId) {
         try {
+          showSpinner();
           const res = await fetch(
             `https://openapi.programming-hero.com/api/category/${categoryId}`
           );
           const data = await res.json();
+          hideSpinner();
           if (data.status && data.plants) {
             const container = document.getElementById("card-container");
             container.innerHTML = "";
@@ -107,6 +111,7 @@ async function fetchCategories() {
             });
           }
         } catch (error) {
+          hideSpinner();
           console.error("Error fetching plants by category:", error);
         }
       }
@@ -119,9 +124,10 @@ async function fetchCategories() {
 fetchCategories();
 async function fetchPlants() {
   try {
+    showSpinner();
     const res = await fetch("https://openapi.programming-hero.com/api/plants");
     const data = await res.json();
-
+    hideSpinner();
     if (data.status && data.plants) {
       const container = document.getElementById("card-container");
       container.innerHTML = "";
@@ -131,6 +137,7 @@ async function fetchPlants() {
       });
     }
   } catch (error) {
+    hideSpinner();
     console.error("Error fetching plants:", error);
   }
 }
@@ -194,4 +201,11 @@ function openModal(plantId) {
         document.getElementById("tree-modal").classList.remove("hidden");
       }
     });
+}
+
+function showSpinner() {
+  document.getElementById("loading-spinner").classList.remove("hidden");
+}
+function hideSpinner() {
+  document.getElementById("loading-spinner").classList.add("hidden");
 }
