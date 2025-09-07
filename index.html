@@ -61,10 +61,18 @@
     <!-- Choose Your Trees -->
     <h1 class="text-2xl sm:text-3xl font-bold mb-4 mt-[40px] sm:mt-[100px] text-center">Choose Your Trees</h1>
     <section class="flex flex-col sm:flex-row justify-center items-start gap-6 sm:gap-10 mr-0 sm:mr-[30px] px-2">
-        <!-- Sidebar (Categories) -->
-        <div class="w-full sm:w-auto mb-6 sm:mb-0">
+        <!-- Sidebar (Categories) for large screens -->
+        <div class="w-full sm:w-auto mb-6 sm:mb-0 hidden sm:block">
             <h1 class="text-xl font-bold mb-2">Categories</h1>
             <ul id="category-list" class="ml-0 sm:ml-4 space-y-2"></ul>
+        </div>
+        <!-- Category select for small screens -->
+        <div class="block sm:hidden w-full mb-6">
+            <select id="category-select" class="select select-ghost w-full">
+                <option disabled selected>Pick a category</option>
+                <option value="all">All Trees</option>
+                <!-- Options will be populated by JS -->
+            </select>
         </div>
 
         <!-- Card Container (Centered) -->

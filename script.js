@@ -51,6 +51,7 @@ async function fetchCategories() {
     );
     const data = await res.json();
     if (data.status && data.categories) {
+      // Sidebar for large screens
       const list = document.getElementById("category-list");
       list.innerHTML = "";
       list.innerHTML += `<li><a href='#' data-id='all' class='category-btn bg-green-800 text-white w-[250px] px-4 py-1 rounded-lg block'>All Trees</a></li>`;
@@ -72,6 +73,26 @@ async function fetchCategories() {
           }
         });
       });
+      // Small screen select
+      const select = document.getElementById("category-select");
+      if (select) {
+        // Remove old options except first
+        select.querySelectorAll('option:not([value="all"]):not([disabled])').forEach(opt => opt.remove());
+        data.categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat.id;
+          option.textContent = cat.category_name;
+          select.appendChild(option);
+        });
+        select.onchange = function() {
+          const id = select.value;
+          if (id === "all") {
+            fetchPlants();
+          } else {
+            fetchPlantsByCategory(id);
+          }
+        };
+      }
       async function fetchPlantsByCategory(categoryId) {
         try {
           const res = await fetch(
